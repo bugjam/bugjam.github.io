@@ -66,6 +66,7 @@ Instead, we can format the data to a nice tabular layout and put that on the cli
 		var formatted = clipboardTemplate(data);
 	
 		// put it on the clipboard via a temporary dom element
+		// adapted from https://stackoverflow.com/questions/49102724/angular-5-copy-to-clipboard
 		var element = document.createElement('textarea');
 		element.style.height = '0';
 		element.value = formatted;

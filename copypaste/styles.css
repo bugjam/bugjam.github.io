@@ -1,5 +1,6 @@
 /*
- * Define the widths: play around with these to get a best fit.
+ * Table-like layout with divs
+ * From https://codepen.io/vasansr/full/gPXJxB
  */
 .table-row {
   display: flex;
