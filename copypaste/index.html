@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<title>Copy-paste</title>
+<script id="table-template" type="text/x-handlebars-template">
+<div>
+<div class="table-row header">
+  <div class="num">Id</div>
+  <div class="text">Name</div>
+  <div class="num">Value 1</div>
+  <div class="num">Value 2</div>
+  <div class="text">Value 3</div>
+</div>
+{{#each this}}
+<div class="table-row">
+  <div class="num">{{id}}</div>
+  <div class="text">{{name}}</div>
+  <div class="num">{{val1}}</div>
+  <div class="num">{{val2}}</div>
+  <div class="text">{{val3}}</div>
+</div>
+{{/each}}
+</div>
+</script>
+<script id="clipboard-template" type="text/x-handlebars-template">Id{{{tab}}}Name{{{tab}}}Value 1{{{tab}}}Value 2{{{tab}}}Value 3
+{{#each this}}
+{{id}}{{{tab}}}"{{{name}}}"{{{tab}}}{{val1}}{{{tab}}}{{val2}}{{{tab}}}"{{{val3}}}"
+{{/each}}
+</script>
+</head>
+
+<body>
+<h1>Copy-paste of table-like data</h1>
+Here is a tabular display of data which is not actually a html &lt;table&gt;:
+<div id="tabular"></div>
+Copying and pasting this data from the browser breaks the table layout as the browser does not reflect
+the structure of the data when copying them to the clipboard. (Go ahead and try it...)
+<p>
+Instead, we can format the data to a nice tabular layout and put that on the clipboard:<br>
+<button id="cpy">Copy to clipboard</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" type="application/javascript"></script>
+<script type="application/javascript">
+	Handlebars.registerHelper('tab', function(object) { return new Handlebars.SafeString('\t'); });
+	const tableTemplate = Handlebars.compile(document.getElementById('table-template').innerHTML);
+	const clipboardTemplate = Handlebars.compile(document.getElementById('clipboard-template').innerHTML);
+  
+	// define some sample data
+	const data = [
+		{id:1, name:'Jim Nelsson', val1:1889,val2:18892.01,val3:'Foo'},
+		{id:2, name:'Emily Smith', val1:12,val2:62401.42,val3:'Fool'},
+		{id:3, name:'Dr. Jones', val1:1981,val2:1772.98,val3:'Floof'},
+		{id:4, name:'Jack Bond', val1:89,val2:92762.0,val3:'F'},
+		{id:5, name:'Marie Hansson', val1:1981889,val2:87632.442,val3:'Oooh'},
+		{id:6, name:'Alice Andersson', val1:312,val2:77.3,val3:'Auch'},
+		{id:7, name:'Jenny Anydots', val1:1889,val2:8762.113,val3:'Moo'}
+	];
+	
+	// add the <div>-based layout to the page
+	document.getElementById('tabular').innerHTML = tableTemplate(data);
+	
+	document.getElementById('cpy').onclick = function(event) {
+		// format a tab-separated version of the same data
+		var formatted = clipboardTemplate(data);
+	
+		// put it on the clipboard via a temporary dom element
+		var element = document.createElement('textarea');
+		element.style.height = '0';
+		element.value = formatted;
+		document.body.appendChild(element);
+		element.focus();
+		element.select();
+		document.execCommand('copy');
+		document.body.removeChild(element);
+		event.target.focus(); // restore focus to the button
+	};
+</script>
+</body>
+
+</html>
