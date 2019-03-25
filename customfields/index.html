@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.2.0/ng-tags-input.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/3.2.0/ng-tags-input.js"></script>
+        <script>
+            function remaining(d) {
+                switch(d.getMonth()) {
+                    case 0: case 2: case 4: case 6: case 7: case 9: case 11:
+                        return 31-d.getDate();
+                    case 3: case 5: case 8: case 10:
+                        return 30-d.getDate();
+                    case 1:
+                        var y = d.getYear()-100;
+                        // Primitive leap year handling, sufficient for 2000<y<2399
+                        return y%4==0 && y%100!=0 ? 29-d.getDate : 28-d.getDate;
+                    default:
+                        console.log("Invalid date"+d);
+                        return NaN;
+                }
+            }
+            var operators = [
+                { text: '+' },
+                { text: '-' },
+                { text: '/' },
+                { text: '*' }
+            ];
+            var values = [
+                { text: "Plusgirokonto:BookedBalance", value: -1680},
+                { text: "Plusgirokonto:AvailableBalance", value: 50000-1680},
+                { text: "Plusgirokonto:UpcomingPayments", value: 8719},
+                { text: "Sparkonto:BookedBalance", value: 112081},
+                { text: "Sparkonto:AvailableBalance", value: 39861},
+                { text: "Sparkonto:UpcomingPayments", value: 0},
+                { text: "Date:Today", value: new Date().getDate() },
+                { text: "Date:RemainingDaysThisMonth", value: remaining(new Date())}
+            ];
+            
+            function isOp(s) {
+                return ["+","-","*","/"].indexOf(s)>-1;
+            }
+
+            function applyOp(op, a, b) {
+                // FIXME missing operator presedence
+                switch(op) {
+                    case "+": 
+                        return a + b;
+                    case "-":
+                        return a - b;
+                    case "*":
+                        return a * b;
+                    case "/":
+                        return a / b;
+                    default:
+                        console.log("Unknown operator " + op);
+                        return a;
+                    }
+            }
+
+            angular.module('myApp', ['ngTagsInput'])
+            .controller('MyCtrl', function($scope, $q) {
+                $scope.autocomplete = function(query) {
+                    var a;
+                    if($scope.tags && $scope.tags.length && !isOp($scope.tags[$scope.tags.length-1].text)) 
+                        a = operators;
+                    else
+                        a = values;
+                    if(query.length>1)
+                        a = a.filter(t => t.text.toLowerCase().includes(query.toLowerCase()));
+                    return $q(function(resolve,reject) {
+                        resolve(a);
+                    });
+                }
+
+                $scope.calculateResult = function() {
+                    var r=0;
+                    var op="+";
+                    if($scope.tags) {
+                        for(var i=0 ; i<$scope.tags.length ; i++) {
+                            t = $scope.tags[i];
+                            if(t.value != undefined) {
+                                r = applyOp(op, r, t.value)
+                            } else if(isOp(t.text)) {
+                                op = t.text;
+                            } else {
+                                r = applyOp(op, r, parseFloat(t.text));
+                            }
+                        }
+                        $scope.result = r;
+                    }
+                };
+
+                $scope.$watch('tags', $scope.calculateResult, true);
+            });
+        </script>
+    </head>
+<body>
+<h1>A simple expression builder</h1>
+<p>This is an expriement using <a href="http://mbenford.github.io/ngTagsInput/">ngTagsInput</a> to create
+    a simple expression builder. The sample contains some hardcoded account information to have some values
+    to work with. 
+    Start typing in the input field to try it out.</p>
+<p>Limitation: The library is designed for tags so it does not allow the same value to be used twice in the same
+    expression.
+</p>
+<div ng-app="myApp" ng-controller="MyCtrl">
+  <tags-input ng-model="tags" min-length="1" add-on-space="true" spellcheck="false"
+    placeholder="Start typing to calculate a value">
+      <auto-complete source="autocomplete($query)" min-length="0"></auto-complete>
+  </tags-input>
+  <p>
+      Calculation: 
+    <span ng-repeat="t in tags">
+        {{t.value != undefined ? t.value : t.text}}
+    </span>
+    =
+    {{result}}
+  </p>
+</div>
+
+
+</body>
+</html>
