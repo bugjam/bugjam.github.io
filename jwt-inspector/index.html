@@ -62,7 +62,7 @@
 
     <script>
       function send() {
-        var t = "header." + btoa($("#jwt").value) + ".signature";
+        var t = "header." + btoa($("#jwt").val()) + ".signature";
         $.ajax({
           url: document.location,
           headers: { "Authorization": "Bearer "+t}});
