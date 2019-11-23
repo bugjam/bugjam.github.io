@@ -7,6 +7,20 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+    .ghbox {
+      border-style: solid;
+      border-radius: 25px;
+      border-color: #bbbbbb;
+      padding: 25px 25px 25px 25px;
+    }
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+
+    }
+    </style>
 
     <title>Hello, JWT!</title>
   </head>
@@ -15,10 +29,19 @@
 
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Hello, JWT!</h1>
-      <p>Are you sending JWT tokens in your HTTP requests? Tired of copying tokens from the developer view into <a href="https://jwt.io">jwt.io</a> when debugging?</p>
-      <p>Try the <b>JWT Inspector</b> Chrome extension!</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Install</a></p>
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="display-3">Hello, JWT!</h1>
+          <p>Are you sending JWT tokens in your HTTP requests? Tired of copying tokens from the developer view into <a href="https://jwt.io">jwt.io</a> when debugging?</p>
+          <p>Try the <b>JWT Inspector</b> Chrome extension!</p>
+          <p><a class="btn btn-primary btn-lg" href="#" role="button">Install</a></p>
+        </div>
+        <div class="col-md-4 ghbox">
+          <a href="https://github.com/bugjam/jwt-inspector"><img src="GitHub-Mark-64px.png" class="center"></a><br>
+          <p>JWT Inspector is open source. Get the source code and submit issues or pull requests <a href="https://github.com/bugjam/jwt-inspector">on GitHub</a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
