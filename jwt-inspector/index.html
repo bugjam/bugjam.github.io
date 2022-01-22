@@ -34,7 +34,7 @@
           <h1 class="display-3">Hello, JWT!</h1>
           <p>Are you sending JWT tokens in your HTTP requests? Tired of copying tokens from the developer view into <a href="https://jwt.io">jwt.io</a> when debugging?</p>
           <p>Try the <b>JWT Inspector</b> Chrome extension!</p>
-          <p><a class="btn btn-primary btn-lg" href="#" role="button">Install</a></p>
+          <p><a class="btn btn-primary btn-lg" href="https://chrome.google.com/webstore/detail/jwt-inspector/jgjihoodklabhdoeffdjofnknfijolgk" role="button">Install</a></p>
         </div>
         <div class="col-md-4 ghbox">
           <a href="https://github.com/bugjam/jwt-inspector"><img src="GitHub-Mark-64px.png" class="center"></a><br>
@@ -88,6 +88,7 @@
         var t = btoa('{"alg":"none"}') + "." + btoa($("#jwt").val()) + ".signature";
         $.ajax({
           url: document.location,
+          data: { bust: Math.random() },
           headers: { "Authorization": "Bearer "+t}});
       }
     </script>
