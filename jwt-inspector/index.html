@@ -4,13 +4,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="color-scheme" content="light dark">
 
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="48x48" href="icon48.png">
     <link rel="icon" type="image/png" sizes="128x128" href="icon128.png">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vinorodrigues/bootstrap-dark@0.6.1/dist/bootstrap-dark.min.css" crossorigin="anonymous">
     <style>
     .ghbox {
       border-style: solid;
@@ -41,7 +42,12 @@
           <p><a class="btn btn-primary btn-lg" href="https://chrome.google.com/webstore/detail/jwt-inspector/jgjihoodklabhdoeffdjofnknfijolgk" role="button">Install</a></p>
         </div>
         <div class="col-md-4 ghbox">
-          <a href="https://github.com/bugjam/jwt-inspector"><img src="GitHub-Mark-64px.png" class="center"></a><br>
+          <a href="https://github.com/bugjam/jwt-inspector">
+            <picture>
+              <source srcset="github-mark-white.png" media="(prefers-color-scheme: dark)">
+              <img src="GitHub-Mark-64px.png" class="center" alt="GitHub logo" width="64" height="64">
+            </picture>
+          </a><br>
           <p>JWT Inspector is open source. Get the source code and submit issues or pull requests <a href="https://github.com/bugjam/jwt-inspector">on GitHub</a>
           </p>
         </div>
